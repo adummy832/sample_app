@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sample_app/features/task/domain/entities/task.dart';
 import 'package:sample_app/features/task/presentation/bloc/task_bloc.dart';
+import 'package:sample_app/features/task/presentation/widgets/upgraded_list_tile.dart';
 
 class TaskListingWidget extends StatelessWidget {
   const TaskListingWidget({
@@ -29,9 +31,7 @@ class TaskListingWidget extends StatelessWidget {
               onPressed: () {
                 context.go('/task-create/$isToday');
               },
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-              ),
+              style: ElevatedButton.styleFrom(shape: const CircleBorder()),
               child: const Icon(Icons.add),
             )
           ],
@@ -54,12 +54,18 @@ class TaskListingWidget extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 // Get the task object
-                final task = mState.taskList[index];
+                final task = mState.taskList[index] as Task;
 
-                return ListTile(
-                  leading: const Text('X'), // TODO
-                  title: Text(task.name ?? ''),
-                  trailing: Text(task.time ?? ''),
+                return UpgradedListTile(
+                  leadingBuilder: (value) {
+                    return Checkbox(
+                      checkColor: Colors.white,
+                      value: value,
+                      onChanged: null,
+                    );
+                  },
+                  content: Text(task.name!),
+                  trailing: Text(task.time!),
                 );
               },
             );
