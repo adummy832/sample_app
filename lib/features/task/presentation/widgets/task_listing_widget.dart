@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,11 +9,11 @@ class TaskListingWidget extends StatelessWidget {
   const TaskListingWidget({
     super.key,
     required this.title,
-    required this.flag,
+    required this.isToday,
   });
 
   final String title;
-  final int flag;
+  final bool isToday;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class TaskListingWidget extends StatelessWidget {
             Text(title),
             ElevatedButton(
               onPressed: () {
-                context.go('/task-create');
+                context.go('/task-create/$isToday');
               },
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
@@ -37,20 +39,23 @@ class TaskListingWidget extends StatelessWidget {
         BlocBuilder<TaskBloc, TaskState>(
           builder: (context, state) {
             // Get the state list
-            final list = taskBloc.states<TaskList>();
+            var mState;
+            if (isToday) {
+              mState = taskBloc.states<TaskToday>();
+            } else {
+              mState = taskBloc.states<TaskTomorrow>();
+            }
 
             // Guard clause
-            if (list == null) return const SizedBox.shrink();
+            if (mState == null) return const SizedBox.shrink();
 
             return ListView.builder(
-              itemCount: list.taskList.length,
+              itemCount: mState.taskList.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 // Get the task object
-                final task = list.taskList[index];
+                final task = mState.taskList[index];
 
-                // We need proper grouping of task
-                // Can do this by 2d array?
                 return ListTile(
                   leading: const Text('X'), // TODO
                   title: Text(task.name ?? ''),

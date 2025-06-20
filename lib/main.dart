@@ -18,9 +18,13 @@ final GoRouter _router = GoRouter(
       },
       routes: <RouteBase>[
         GoRoute(
-          path: 'task-create',
-          builder: (BuildContext context, GoRouterState state) {
-            return const TaskCreateScreen();
+          path: '/task-create/:today',
+          builder: (
+            BuildContext context,
+            GoRouterState state,
+          ) {
+            final isToday = state.pathParameters['today']!;
+            return TaskCreateScreen(isToday: isToday == 'true');
           },
         ),
       ],

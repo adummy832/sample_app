@@ -10,15 +10,20 @@ sealed class TaskState extends Equatable {
 
 class TaskInitial extends TaskState {}
 
-class TaskList extends TaskState {
-  const TaskList({
-    this.taskList = const [],
-  });
+class TaskToday extends TaskState {
+  const TaskToday({this.taskList = const []});
 
   final List<Task> taskList;
 
   @override
-  List<Object> get props => [
-        taskList,
-      ];
+  List<Object> get props => [taskList];
+}
+
+class TaskTomorrow extends TaskState {
+  const TaskTomorrow({this.taskList = const []});
+
+  final List<Task> taskList;
+
+  @override
+  List<Object> get props => [taskList];
 }

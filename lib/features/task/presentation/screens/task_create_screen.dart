@@ -7,7 +7,12 @@ import 'package:sample_app/features/task/domain/entities/task.dart';
 import 'package:sample_app/features/task/presentation/bloc/task_bloc.dart';
 
 class TaskCreateScreen extends StatelessWidget {
-  const TaskCreateScreen({super.key});
+  const TaskCreateScreen({
+    super.key,
+    required this.isToday,
+  });
+
+  final bool isToday;
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +31,21 @@ class TaskCreateScreen extends StatelessWidget {
               FormBuilderTextField(
                 name: 'name',
                 decoration: const InputDecoration(
-                  labelText: 'name',
+                  labelText: 'Name',
                 ),
               ),
               FormBuilderDateTimePicker(
                 name: 'time',
                 initialEntryMode: DatePickerEntryMode.calendar,
-                initialValue: DateTime.now(),
                 inputType: InputType.time,
                 decoration: const InputDecoration(
                   labelText: 'Time',
                 ),
-                initialTime: const TimeOfDay(hour: 8, minute: 0),
               ),
               FormBuilderTextField(
                 name: 'notes',
                 decoration: const InputDecoration(
-                  labelText: 'notes',
+                  labelText: 'Notes',
                 ),
               ),
               const SizedBox(height: 100),
@@ -61,8 +64,10 @@ class TaskCreateScreen extends StatelessWidget {
                     notes: values['notes'],
                   );
 
-                  // Event success
-                  taskBloc.add(TaskAdd(task: task));
+                  taskBloc.add(TaskAdd(
+                    task: task,
+                    isToday: isToday,
+                  ));
 
                   // need to go back
                   context.go('/');

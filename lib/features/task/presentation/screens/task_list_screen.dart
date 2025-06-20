@@ -12,19 +12,17 @@ class TaskListScreen extends StatelessWidget {
         title: const Text('Test app'),
       ),
       body: const SingleChildScrollView(
-        child: Expanded(
-          child: Column(
-            children: <Widget>[
-              TaskListingWidget(
-                title: 'Today',
-                flag: 1, // today,
-              ),
-              TaskListingWidget(
-                title: 'Tomorrow',
-                flag: 0,
-              ),
-            ],
-          ),
+        child: Column(
+          children: <Widget>[
+            TaskListingWidget(
+              title: 'Today',
+              isToday: true, // today,
+            ),
+            TaskListingWidget(
+              title: 'Tomorrow',
+              isToday: false,
+            ),
+          ],
         ),
       ),
     );

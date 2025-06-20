@@ -11,8 +11,9 @@ sealed class TaskEvent extends Equatable {
 class TaskAdd extends TaskEvent {
   const TaskAdd({
     required this.task,
+    required this.isToday,
   });
 
   final Task task;
-  // final bool flag; // 1 today, 0 tomorrow,
+  final bool isToday; // 1 today, 0 tomorrow,
 }
