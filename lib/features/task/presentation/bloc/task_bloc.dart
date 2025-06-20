@@ -25,11 +25,7 @@ class TaskBloc extends MultiStateBloc<TaskEvent, TaskState> {
 
     // Can do refactoring later. This is a bit ugly
     if (oldList?.taskList == null) {
-      final tmp = {
-        'today': [],
-        'tomorrow': [],
-      };
-
+      final tmp = [];
       final List<Task> newList = [
         ...tmp,
         task,
