@@ -64,8 +64,21 @@ class TaskListingWidget extends StatelessWidget {
                       onChanged: null,
                     );
                   },
-                  content: Text(task.name!),
-                  trailing: Text(task.time!),
+                  content: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(task.name),
+                      if (task.notes == null) ...[
+                        const SizedBox.shrink()
+                      ] else ...[
+                        Text(
+                          'Note: ${task.notes!}',
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ]
+                    ],
+                  ),
+                  trailing: Text(task.time),
                 );
               },
             );
