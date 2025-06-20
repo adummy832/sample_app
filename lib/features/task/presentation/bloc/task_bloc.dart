@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_state_bloc/multi_state_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -17,24 +19,26 @@ class TaskBloc extends MultiStateBloc<TaskEvent, TaskState> {
     Emitter<TaskState> state,
   ) async {
     final task = event.task;
+    final today = event.isToday;
 
-    // Get the old data task ref.
-    final oldList = states<TaskList>();
-
-    // First run empty
-
-    // Can do refactoring later. This is a bit ugly
-    if (oldList?.taskList == null) {
-      final tmp = [];
-      final List<Task> newList = [
-        ...tmp,
-        task,
-      ];
-
-      emit(TaskList(taskList: newList));
+    // Determine if today or tomorrow.
+    var mState;
+    if (today) {
+      mState = states<TaskToday>();
     } else {
-      final old = oldList?.taskList;
-      emit(TaskList(taskList: [...old!, task]));
+      mState = states<TaskTomorrow>();
+    }
+
+    final oldTasks = mState?.taskList;
+    final List<Task> updatedTasks = [
+      ...?oldTasks,
+      task,
+    ];
+
+    if (today) {
+      emit(TaskToday(taskList: updatedTasks));
+    } else {
+      emit(TaskTomorrow(taskList: updatedTasks));
     }
   }
 }
