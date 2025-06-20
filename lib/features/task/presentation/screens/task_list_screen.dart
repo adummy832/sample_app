@@ -16,10 +16,12 @@ class TaskListScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               TaskListingWidget(
-                title: 'Today', // Date?
+                title: 'Today',
+                flag: 1, // today,
               ),
               TaskListingWidget(
-                title: 'Tomorrow', // Date?
+                title: 'Tomorrow',
+                flag: 0,
               ),
             ],
           ),

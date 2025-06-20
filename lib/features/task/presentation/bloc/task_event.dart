@@ -14,4 +14,5 @@ class TaskAdd extends TaskEvent {
   });
 
   final Task task;
+  // final bool flag; // 1 today, 0 tomorrow,
 }

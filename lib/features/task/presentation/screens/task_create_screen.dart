@@ -7,12 +7,7 @@ import 'package:sample_app/features/task/domain/entities/task.dart';
 import 'package:sample_app/features/task/presentation/bloc/task_bloc.dart';
 
 class TaskCreateScreen extends StatelessWidget {
-  const TaskCreateScreen({
-    super.key,
-    required this.flag,
-  });
-
-  final bool flag;
+  const TaskCreateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
