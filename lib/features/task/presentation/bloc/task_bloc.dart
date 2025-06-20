@@ -19,26 +19,22 @@ class TaskBloc extends MultiStateBloc<TaskEvent, TaskState> {
     Emitter<TaskState> state,
   ) async {
     final task = event.task;
-    final today = event.isToday;
+    final isToday = event.isToday;
 
-    // Determine if today or tomorrow.
-    var mState;
-    if (today) {
-      mState = states<TaskToday>();
-    } else {
-      mState = states<TaskTomorrow>();
-    }
+    // Get the current state based on isToday
+    final currentState = isToday ? states<TaskToday>() : states<TaskTomorrow>();
 
-    final oldTasks = mState?.taskList;
-    final List<Task> updatedTasks = [
-      ...?oldTasks,
+    // Create updated task list
+    final updatedTasks = [
+      ...?currentState?.taskList,
       task,
     ];
 
-    if (today) {
-      emit(TaskToday(taskList: updatedTasks));
-    } else {
-      emit(TaskTomorrow(taskList: updatedTasks));
-    }
+    // Emit the appropriate state
+    emit(
+      isToday
+          ? TaskToday(taskList: updatedTasks)
+          : TaskTomorrow(taskList: updatedTasks),
+    );
   }
 }
